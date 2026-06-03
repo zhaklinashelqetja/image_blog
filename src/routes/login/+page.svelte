@@ -91,8 +91,7 @@
           <a href="/register"
           class="block w-full text-center bg-[#111120] border border-[#1e1e2e]
                  hover:border-zinc-700 text-zinc-500 hover:text-zinc-300
-                 rounded-xl py-3 text-sm transition-all">Create an account
-        </a>
+                 rounded-xl py-3 text-sm transition-all">Create an account</a>
       </div>
     </div>
   </div>
