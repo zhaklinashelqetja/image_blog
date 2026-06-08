@@ -50,6 +50,6 @@ export const actions = {
 			maxAge: 60 * 60 * 24 * 30
 		});
 
-		throw redirect(303, '/');
+		throw redirect(303, `/profile/${user.username}`);
 	}
 };

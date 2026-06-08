@@ -78,10 +78,7 @@
 
   <section class="max-w-6xl mx-auto px-6 py-12">
 
-    <div class="flex justify-between mb-8">
-      <a href="/" class="text-sm text-zinc-500 hover:text-white">← Back to feed</a>
-      <span class="text-sm text-zinc-600">{images.length} photos</span>
-    </div>
+
 
     {#if images.length === 0}
 
