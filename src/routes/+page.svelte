@@ -97,7 +97,7 @@
 
         {#each images as img (img.id)}
 
-          <a href="/image/{img.id}"
+          <a href="/images/{img.id}"
             class="block mb-4 break-inside-avoid group rounded-2xl border border-[#1e1e2e] bg-[#0d0d17] overflow-hidden hover:border-violet-600/40 transition">
 
             <img

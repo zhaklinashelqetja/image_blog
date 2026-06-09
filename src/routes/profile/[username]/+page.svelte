@@ -44,11 +44,29 @@
 
   <section class="max-w-5xl mx-auto px-6 py-10">
 
-    <div class="mb-6">
-      <a href="/" class="text-sm text-zinc-500 hover:text-white transition-colors">
-        ← Back to Feed
-      </a>
-    </div>
+    <div class="mb-6 flex items-center justify-between">
+  <a href="/" class="text-sm text-zinc-500 hover:text-white transition-colors">← Back to Feed</a>
+
+  <div class="flex items-center gap-3">
+
+    <a href="/dashboard"
+      class="bg-[#111120] border border-[#1e1e2e]
+             hover:border-violet-600/40 hover:text-white
+             text-zinc-400 px-4 py-2 rounded-xl text-sm
+             transition-all duration-200">Dashboard
+    </a>
+
+    <form method="POST" action="/logout?/logout">
+      <button type="submit"
+        class="bg-red-500/10 border border-red-500/20
+               hover:bg-red-500/20 hover:border-red-500/40
+               text-red-400 px-4 py-2 rounded-xl text-sm
+               transition-all duration-200">Logout
+      </button>
+    </form>
+
+  </div>
+</div>
 
     <div class="flex items-center justify-between mb-8">
       <h2 class="text-white font-semibold">All photos</h2>

@@ -1,7 +1,8 @@
 <script>
   import { enhance } from '$app/forms';
   let { data, form } = $props();
-  let { user, images } = data;
+  let user = $derived(data.user);
+  let images = $derived(data.images);
 </script>
 
 <svelte:head>
@@ -29,8 +30,7 @@
           
             <a href="/profile/{user.username}"
             class="bg-[#111120] border border-[#1e1e2e] hover:border-zinc-700
-                   text-zinc-400 hover:text-white px-4 py-2 rounded-xl text-sm transition-all"
-          >
+                   text-zinc-400 hover:text-white px-4 py-2 rounded-xl text-sm transition-all">
             View Profile
           </a>
           <a href="/" class="text-zinc-500 hover:text-white text-sm transition-colors">
@@ -77,24 +77,14 @@
             <label for="image" class="block text-zinc-500 text-xs uppercase tracking-widest mb-2">
               Image
             </label>
-            <input
-              id="image"
-              type="file"
-              name="image"
-              accept="image/*"
-              required
+            <input id="image" type="file" name="image" accept="image/*" required
               class="w-full bg-[#080810] border border-[#1e1e2e] rounded-xl px-4 py-3
-                     text-zinc-400 text-sm
-                     file:mr-3 file:py-1 file:px-3 file:rounded-lg file:border-0
-                     file:bg-violet-700 file:text-white file:text-xs file:font-medium
-                     hover:border-zinc-700 transition-all"
-            />
+                     text-zinc-400 text-sm file:mr-3 file:py-1 file:px-3 file:rounded-lg file:border-0
+                     file:bg-violet-700 file:text-white file:text-xs file:font-medium hover:border-zinc-700 transition-all"/>
           </div>
 
           <div>
-            <label for="description" class="block text-zinc-500 text-xs uppercase tracking-widest mb-2">
-              Description
-            </label>
+            <label for="description" class="block text-zinc-500 text-xs uppercase tracking-widest mb-2">Description</label>
             <textarea
               id="description"
               name="description"
@@ -103,16 +93,13 @@
               class="w-full bg-[#080810] border border-[#1e1e2e] rounded-xl px-4 py-3
                      text-zinc-200 placeholder-zinc-700 text-sm resize-none
                      focus:outline-none focus:border-violet-600 focus:ring-2 focus:ring-violet-600/15
-                     hover:border-zinc-700 transition-all"
-            ></textarea>
+                     hover:border-zinc-700 transition-all"></textarea>
           </div>
 
           <button
             type="submit"
             class="w-full bg-violet-700 hover:bg-violet-600 active:scale-95
-                   text-white font-semibold rounded-xl py-3 text-sm transition-all"
-          >
-            Upload Photo
+                   text-white font-semibold rounded-xl py-3 text-sm transition-all">Upload Photo
           </button>
         </form>
       </div>
@@ -141,12 +128,11 @@
                        rounded-2xl border border-[#1e1e2e] bg-[#0d0d17]
                        hover:border-violet-600/40 transition-all duration-300">
 
-              <a href="/image/{img.id}">
+              <a href="/images/{img.id}">
                 <img
                   src={img.image}
                   alt={img.description || 'Photo'}
-                  class="w-full object-cover group-hover:scale-105 transition-transform duration-500"
-                />
+                  class="w-full object-cover group-hover:scale-105 transition-transform duration-500"/>
               </a>
 
               <div class="p-4 border-t border-[#1e1e2e]">
@@ -160,12 +146,9 @@
                   </div>
                   <form method="POST" action="?/delete" use:enhance>
                     <input type="hidden" name="imageId" value={img.id} />
-                    <button
-                      type="submit"
+                    <button type="submit"
                       class="bg-red-500/10 hover:bg-red-500/30 border border-red-500/20
-                             text-red-400 text-xs font-medium px-3 py-1.5 rounded-lg transition-all"
-                    >
-                      Delete
+                             text-red-400 text-xs font-medium px-3 py-1.5 rounded-lg transition-all">Delete
                     </button>
                   </form>
                 </div>

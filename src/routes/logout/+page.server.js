@@ -1,5 +1,4 @@
-
-import { invalidateSession } from '$lib/server/auth';
+import pool from '$lib/server/db';
 import { redirect } from '@sveltejs/kit';
 
 export const actions = {
@@ -7,14 +6,14 @@ export const actions = {
 		const sessionId = cookies.get('session');
 
 		if (sessionId) {
-			await invalidateSession(sessionId);
+			await pool.execute(
+				'DELETE FROM sessions WHERE id = ?',
+				[sessionId]
+			);
 		}
 
-		cookies.delete('session', {
-			path: '/'
-		});
+		cookies.delete('session', { path: '/' });
 
 		throw redirect(303, '/');
 	}
 };
-

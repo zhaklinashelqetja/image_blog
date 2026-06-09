@@ -1,4 +1,3 @@
-
 import pool from '$lib/server/db';
 import { error } from '@sveltejs/kit';
 
