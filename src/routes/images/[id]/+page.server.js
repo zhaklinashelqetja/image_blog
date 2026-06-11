@@ -52,6 +52,26 @@ export const actions = {
     return { success: true };
   },
 
+  deleteComment: async ({ request, cookies }) => {
+    const sessionId = cookies.get('session');
+    const user = sessionId ? await getSession(sessionId) : null;
+
+    if (!user) return fail(401, { error: 'Bitte einloggen.' });
+
+    const data = await request.formData();
+    const commentId = data.get('commentId');
+
+    const [rows] = await db.query(
+      'SELECT * FROM comments WHERE id = ? AND user_id = ?',
+      [commentId, user.id]);
+
+    if (!rows.length) return fail(403, { error: 'Nicht erlaubt.' });
+
+    await db.query('DELETE FROM comments WHERE id = ?', [commentId]);
+
+    return { deleted: true };
+  },
+
   vote: async ({ params, cookies }) => {
     const sessionId = cookies.get('session');
     const user = sessionId ? await getSession(sessionId) : null;

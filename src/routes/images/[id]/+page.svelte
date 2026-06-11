@@ -134,7 +134,6 @@
     <div class="flex flex-col lg:flex-row gap-4">
 
       <div class="flex-1">
-
         <div class="relative rounded-2xl overflow-hidden border border-[#1e1e2e] bg-[#0d0d17]">
           <img
             src={data.image.image}
@@ -144,13 +143,13 @@
           />
           {#if data.user && data.user.id === data.image.author_id}
             <canvas
-                bind:this={canvas}
-                class="absolute top-0 left-0 w-full h-full cursor-crosshair"
-                onmousedown={startDraw}
-                onmousemove={draw}
-                onmouseup={stopDraw}
-                onmouseleave={stopDraw}
-              ></canvas>
+              bind:this={canvas}
+              class="absolute top-0 left-0 w-full h-full cursor-crosshair"
+              onmousedown={startDraw}
+              onmousemove={draw}
+              onmouseup={stopDraw}
+              onmouseleave={stopDraw}
+            ></canvas>
           {/if}
         </div>
 
@@ -160,16 +159,13 @@
           </div>
 
           <div class="bg-[#0d0d17] border border-[#1e1e2e] rounded-2xl p-5 space-y-5">
-
             <div>
               <div class="text-xs text-zinc-400 mb-2">Filters</div>
               <div class="flex flex-wrap gap-2">
                 {#each Object.keys(filters) as f (f)}
                   <button
                     class="px-3 py-1.5 rounded-xl text-xs border transition-all duration-200 font-medium
-                      {filter === f
-                        ? 'bg-violet-700 border-violet-500 text-white'
-                        : 'bg-[#111120] border-[#2a2a45] hover:bg-violet-700 hover:border-violet-500'}"
+                      {filter === f ? 'bg-violet-700 border-violet-500 text-white' : 'bg-[#111120] border-[#2a2a45] hover:bg-violet-700 hover:border-violet-500'}"
                     onclick={() => filter = f}>
                     {f}
                   </button>
@@ -185,21 +181,15 @@
                 <button
                   class="px-4 py-2 rounded-xl text-sm font-medium border transition
                          {tool === 'pen' ? 'bg-violet-700 border-violet-500' : 'bg-[#111120] border-[#2a2a45] hover:bg-violet-700'}"
-                  onclick={() => tool = 'pen'}>
-                  Pen
-                </button>
+                  onclick={() => tool = 'pen'}>Pen</button>
                 <button
                   class="px-4 py-2 rounded-xl text-sm font-medium border transition
                          {tool === 'eraser' ? 'bg-violet-700 border-violet-500' : 'bg-[#111120] border-[#2a2a45] hover:bg-violet-700'}"
-                  onclick={() => tool = 'eraser'}>
-                  Eraser
-                </button>
+                  onclick={() => tool = 'eraser'}>Eraser</button>
                 <button
                   class="px-4 py-2 rounded-xl text-sm font-medium bg-red-500/10 text-red-300
                          border border-red-500/30 hover:bg-red-500/20 transition"
-                  onclick={clearCanvas}>
-                  Clear
-                </button>
+                  onclick={clearCanvas}>Clear</button>
               </div>
             </div>
 
@@ -219,10 +209,8 @@
                 </span>
               {/if}
             </div>
-
           </div>
         {/if}
-
       </div>
 
       <div class="w-full lg:w-72 flex flex-col gap-3">
@@ -267,6 +255,15 @@
           {/if}
         </div>
 
+        <a href={data.image.image}
+          download
+          target="_blank"
+          class="w-full flex items-center justify-center gap-2 py-2.5 rounded-xl
+                bg-[#111120] border border-[#1e1e2e] hover:border-zinc-700
+                text-zinc-400 hover:text-white text-sm font-medium transition-all">
+          ⬇️ Download Photo
+        </a>
+
         <div class="bg-[#0d0d17] border border-[#1e1e2e] rounded-2xl p-4">
           <div class="text-xs text-zinc-400 mb-2">Comments ({data.comments.length})</div>
 
@@ -288,11 +285,22 @@
           <div class="space-y-2 max-h-60 overflow-y-auto">
             {#each data.comments as c (c.id)}
               <div class="bg-[#080810] border border-[#1e1e2e] rounded-xl p-2.5">
-                <div class="flex items-center gap-2 mb-1">
-                  <div class="w-5 h-5 rounded-lg bg-violet-900 flex items-center justify-center text-violet-300 text-[9px] font-bold">
-                    {c.username[0].toUpperCase()}
+                <div class="flex items-center justify-between mb-1">
+                  <div class="flex items-center gap-2">
+                    <div class="w-5 h-5 rounded-lg bg-violet-900 flex items-center justify-center text-violet-300 text-[9px] font-bold">
+                      {c.username[0].toUpperCase()}
+                    </div>
+                    <span class="text-zinc-400 text-xs font-medium">@{c.username}</span>
                   </div>
-                  <span class="text-zinc-400 text-xs font-medium">@{c.username}</span>
+                  {#if data.user && data.user.id === c.user_id}
+                    <form method="POST" action="?/deleteComment" use:enhance>
+                      <input type="hidden" name="commentId" value={c.id} />
+                      <button type="submit"
+                        class="text-zinc-700 hover:text-red-400 text-xs transition-colors">
+                        delete
+                      </button>
+                    </form>
+                  {/if}
                 </div>
                 <p class="text-zinc-300 text-sm">{c.text}</p>
               </div>
