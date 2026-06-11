@@ -2,7 +2,7 @@
   import { enhance } from '$app/forms';
   import { onMount } from 'svelte';
 
-  let { data, form } = $props();
+  let { data } = $props();
 
   let voted = $state(false);
   let voteCount = $state(0);
@@ -10,11 +10,11 @@
   let saving = $state(false);
   let saveMsg = $state('');
 
-  let canvas;
+  let canvas = $state();
   let ctx;
   let drawing = false;
-  let color = '#ff0000';
-  let tool = 'pen';
+  let color = $state('#ff0000');
+  let tool = $state('pen');
 
   const filters = {
     none: '',
@@ -144,13 +144,13 @@
           />
           {#if data.user && data.user.id === data.image.author_id}
             <canvas
-              bind:this={canvas}
-              class="absolute top-0 left-0 w-full h-full cursor-crosshair"
-              on:mousedown={startDraw}
-              on:mousemove={draw}
-              on:mouseup={stopDraw}
-              on:mouseleave={stopDraw}
-            />
+                bind:this={canvas}
+                class="absolute top-0 left-0 w-full h-full cursor-crosshair"
+                onmousedown={startDraw}
+                onmousemove={draw}
+                onmouseup={stopDraw}
+                onmouseleave={stopDraw}
+              ></canvas>
           {/if}
         </div>
 
@@ -164,14 +164,13 @@
             <div>
               <div class="text-xs text-zinc-400 mb-2">Filters</div>
               <div class="flex flex-wrap gap-2">
-                {#each Object.keys(filters) as f}
+                {#each Object.keys(filters) as f (f)}
                   <button
                     class="px-3 py-1.5 rounded-xl text-xs border transition-all duration-200 font-medium
-                           {filter === f
-                             ? 'bg-violet-700 border-violet-500 text-white'
-                             : 'bg-[#111120] border-[#2a2a45] hover:bg-violet-700 hover:border-violet-500'}"
-                    on:click={() => filter = f}
-                  >
+                      {filter === f
+                        ? 'bg-violet-700 border-violet-500 text-white'
+                        : 'bg-[#111120] border-[#2a2a45] hover:bg-violet-700 hover:border-violet-500'}"
+                    onclick={() => filter = f}>
                     {f}
                   </button>
                 {/each}
@@ -186,19 +185,19 @@
                 <button
                   class="px-4 py-2 rounded-xl text-sm font-medium border transition
                          {tool === 'pen' ? 'bg-violet-700 border-violet-500' : 'bg-[#111120] border-[#2a2a45] hover:bg-violet-700'}"
-                  on:click={() => tool = 'pen'}>
+                  onclick={() => tool = 'pen'}>
                   Pen
                 </button>
                 <button
                   class="px-4 py-2 rounded-xl text-sm font-medium border transition
                          {tool === 'eraser' ? 'bg-violet-700 border-violet-500' : 'bg-[#111120] border-[#2a2a45] hover:bg-violet-700'}"
-                  on:click={() => tool = 'eraser'}>
+                  onclick={() => tool = 'eraser'}>
                   Eraser
                 </button>
                 <button
                   class="px-4 py-2 rounded-xl text-sm font-medium bg-red-500/10 text-red-300
                          border border-red-500/30 hover:bg-red-500/20 transition"
-                  on:click={clearCanvas}>
+                  onclick={clearCanvas}>
                   Clear
                 </button>
               </div>
@@ -206,7 +205,7 @@
 
             <div class="pt-2 border-t border-[#1e1e2e] flex items-center gap-3">
               <button
-                on:click={saveChanges}
+                onclick={saveChanges}
                 disabled={saving}
                 class="flex-1 bg-violet-700 hover:bg-violet-600 active:scale-95
                        text-white font-semibold rounded-xl py-3 text-sm transition-all
@@ -234,7 +233,7 @@
               {data.image.author[0].toUpperCase()}
             </div>
             <div>
-              <a href="/profile/{data.image.author}" class="text-white text-sm font-medium hover:text-violet-400">
+              <a href={`/profile/${data.image.author}`} class="text-white text-sm font-medium hover:text-violet-400">
                 @{data.image.author}
               </a>
               <p class="text-zinc-600 text-xs mt-0.5">
